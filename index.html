@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Networking Fundamentals - Complete Guide</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 20mm;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: white;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .cover {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #232F3E 0%, #FF9900 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 0;
+            page-break-after: always;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .cover h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cover .subtitle {
+            font-size: 26px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+        
+        .cover .series {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 30px;
+            border-radius: 30px;
+            margin: 30px 0;
+            font-size: 18px;
+        }
+        
+        .cover .description {
+            font-size: 16px;
+            margin: 20px 60px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .cover .footer-info {
+            margin-top: 60px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 10px;
+            margin: 40px 0;
+            page-break-after: always;
+        }
+        
+        .toc h2 {
+            color: #FF9900;
+            margin-bottom: 30px;
+            font-size: 32px;
+            border-bottom: 3px solid #FF9900;
+            padding-bottom: 10px;
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            padding: 12px 0;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 16px;
+        }
+        
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc li strong {
+            color: #232F3E;
+            font-size: 18px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #232F3E 0%, #3d5a7a 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 8px;
+            margin: 40px 0 25px 0;
+            page-break-after: avoid;
+        }
+        
+        .section-header h2 {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+        
+        .section-header .duration {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        
+        h3 {
+            color: #FF9900;
+            font-size: 24px;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #FF9900;
+            page-break-after: avoid;
+        }
+        
+        h4 {
+            color: #232F3E;
+            font-size: 19px;
+            margin: 25px 0 12px 0;
+            page-break-after: avoid;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            font-size: 15px;
+        }
+        
+        .key-point {
+            background: #fff3cd;
+            border-left: 5px solid #FF9900;
+            padding: 18px 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+        
+        .key-point strong {
+            color: #FF9900;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            page-break-inside: avoid;
+            font-size: 14px;
+        }
+        
+        .comparison-table th {
+            background: #232F3E;
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+        
+        .info-box h4 {
+            color: #2196F3;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        .warning-box {
+            background: #fff4e5;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+        
+        .warning-box h4 {
+            color: #ff9800;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 35px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 18px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 20px 0;
+            page-break-inside: avoid;
+            line-height: 1.5;
+        }
+        
+        .best-practice {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 18px 25px;
+            margin: 25px 0;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+        
+        .best-practice strong {
+            color: #28a745;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+        
+        .footer-page {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #232F3E 0%, #FF9900 100%);
+            color: white;
+            border-radius: 10px;
+            margin-top: 60px;
+            page-break-before: always;
+        }
+        
+        .footer-page h3 {
+            color: white;
+            border: none;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-page p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        
+        .footer-page .social {
+            margin-top: 30px;
+            font-size: 15px;
+            line-height: 2;
+        }
+        
+        .footer-page .divider {
+            width: 100px;
+            height: 3px;
+            background: white;
+            margin: 30px auto;
+            opacity: 0.5;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            h3 {
+                page-break-after: avoid;
+            }
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <h1>AWS Networking Fundamentals</h1>
+        <div class="subtitle">A Complete Guide to Cloud Networking</div>
+        <div class="series">Learning Cloud Series</div>
+        <div class="description">
+            Master the core concepts of AWS networking including VPCs, Subnets, Route Tables, 
+            and Gateways. This comprehensive guide covers everything you need to design and 
+            implement secure, scalable network architectures in Amazon Web Services.
+        </div>
+        <div class="footer-info">
+            © 2025 Learning Cloud Series | AWS Networking Guide
+        </div>
+    </div>
+    
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+        <h2>📋 Table of Contents</h2>
+        <ul>
+            <li><strong>Section 1: VPC Fundamentals</strong></li>
+            <li style="margin-left: 20px;">• What is a VPC?</li>
+            <li style="margin-left: 20px;">• Traditional Network vs VPC Comparison</li>
+            <li style="margin-left: 20px;">• Default VPC vs Custom VPC</li>
+            <li style="margin-left: 20px;">• CIDR Blocks: IP Address Planning</li>
+            <li style="margin-left: 20px;">• Tenancy: Default vs Dedicated</li>
+            
+            <li style="margin-top: 20px;"><strong>Section 2: Subnets & IP Addressing</strong></li>
+            <li style="margin-left: 20px;">• Public vs Private Subnets</li>
+            <li style="margin-left: 20px;">• Availability Zones and High Availability</li>
+            <li style="margin-left: 20px;">• AWS Reserved IP Addresses</li>
+            <li style="margin-left: 20px;">• Auto-Assign Public IP Configuration</li>
+            
+            <li style="margin-top: 20px;"><strong>Section 3: Route Tables & Gateways</strong></li>
+            <li style="margin-left: 20px;">• Route Tables Fundamentals</li>
+            <li style="margin-left: 20px;">• Internet Gateway (IGW)</li>
+            <li style="margin-left: 20px;">• NAT Gateway & NAT Instance</li>
+            <li style="margin-left: 20px;">• Virtual Private Gateway (VGW)</li>
+            <li style="margin-left: 20px;">• Local Routes</li>
+            
+            <li style="margin-top: 20px;"><strong>Key Takeaways & Best Practices</strong></li>
+        </ul>
+    </div>
+    
+    <!-- SECTION 1: VPC FUNDAMENTALS -->
+    <div class="section">
+        <div class="section-header">
+            <h2>Section 1: VPC Fundamentals</h2>
+            <div class="duration">Building Your Private Cloud Network</div>
+        </div>
+        
+        <h3>What is a VPC?</h3>
+        <p>
+            A <strong>Virtual Private Cloud (VPC)</strong> is your logically isolated network within the AWS cloud. 
+            Think of it as your own private data center, but without the physical hardware. A VPC gives you complete 
+            control over your virtual networking environment, including IP address ranges, subnets, route tables, and 
+            network gateways.
+        </p>
+        
+        <p>
+            VPCs are the foundation of AWS networking. When you deploy any resource in AWS—whether it's an EC2 instance, 
+            RDS database, or Lambda function with VPC access—it exists within a VPC. Understanding VPCs is essential for 
+            building secure, scalable cloud architectures.
+        </p>
+        
+        <div class="key-point">
+            <strong>🔑 Key Definition:</strong>
+            VPC = Your Private Network in AWS. It's logically isolated from other AWS customers with complete control 
+            over your networking configuration, including IP addressing, routing, and security.
+        </div>
+        
+        <h3>Traditional Network vs VPC Comparison</h3>
+        <p>
+            AWS VPCs abstract away physical networking hardware, replacing it with software-defined networking that's 
+            more flexible, scalable, and cost-effective.
+        </p>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Traditional Network Component</th>
+                    <th>AWS VPC Equivalent</th>
+                    <th>Key Advantage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Physical Routers</td>
+                    <td>Route Tables</td>
+                    <td>Software-defined, instantly configurable</td>
+                </tr>
+                <tr>
+                    <td>Physical Switches</td>
+                    <td>Virtual Switches</td>
+                    <td>No hardware maintenance required</td>
+                </tr>
+                <tr>
+                    <td>VLANs</td>
+                    <td>Subnets</td>
+                    <td>Flexible, easy to create and modify</td>
+                </tr>
+                <tr>
+                    <td>Firewall Appliances</td>
+                    <td>Security Groups & NACLs</td>
+                    <td>Stateful, no single point of failure</td>
+                </tr>
+                <tr>
+                    <td>Physical Cables & Fiber</td>
+                    <td>Software-Defined Networking</td>
+                    <td>Instant provisioning, unlimited bandwidth</td>
+                </tr>
+                <tr>
+                    <td>Load Balancer Hardware</td>
+                    <td>Elastic Load Balancing</td>
+                    <td>Auto-scaling, managed service</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>Default VPC vs Custom VPC</h3>
+        
+        <h4>Default VPC Characteristics</h4>
+        <p>
+            Every AWS account comes with a default VPC in each region. It's pre-configured and ready to use immediately, 
+            making it perfect for getting started quickly with AWS services.
+        </p>
+        
+        <p><strong>Default VPC Configuration:</strong></p>
+        <ul>
+            <li><strong>CIDR Block:</strong> 172.31.0.0/16 (pre-assigned, cannot be changed)</li>
+            <li><strong>Subnets:</strong> One public subnet in each Availability Zone</li>
+            <li><strong>Internet Gateway:</strong> Already attached and configured</li>
+            <li><strong>Route Table:</strong> Main route table configured for internet access</li>
+            <li><strong>DHCP Options Set:</strong> Pre-configured for DNS resolution</li>
+            <li><strong>Use Case:</strong> Quick testing, learning, and development environments</li>
+        </ul>
+        
+        <h4>Custom VPC Advantages</h4>
+        <p>
+            For production workloads and enterprise applications, custom VPCs are essential. They provide the control 
+            and flexibility needed for complex architectures and security requirements.
+        </p>
+        
+        <p><strong>Why Custom VPCs Matter:</strong></p>
+        <ul>
+            <li><strong>IP Address Control:</strong> Choose your own CIDR blocks from RFC 1918 private ranges</li>
+            <li><strong>Network Architecture:</strong> Design multi-tier applications with public/private subnets</li>
+            <li><strong>Security:</strong> Implement network segmentation and isolation best practices</li>
+            <li><strong>Compliance:</strong> Meet specific regulatory and organizational requirements</li>
+            <li><strong>Scalability:</strong> Plan for future growth with proper IP space allocation</li>
+            <li><strong>Multiple Environments:</strong> Separate dev, staging, and production networks</li>
+        </ul>
+        
+        <div class="info-box">
+            <h4>💡 When to Use Default vs Custom VPC</h4>
+            <p><strong>Use Default VPC for:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Learning AWS and experimenting with services</li>
+                <li>Quick proof-of-concepts and demos</li>
+                <li>Temporary development and testing</li>
+            </ul>
+            <p><strong>Use Custom VPC for:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>All production applications</li>
+                <li>Enterprise workloads with security requirements</li>
+                <li>Multi-tier application architectures</li>
+                <li>Hybrid cloud connectivity (VPN, Direct Connect)</li>
+            </ul>
+        </div>
+        
+        <h3>CIDR Blocks: IP Address Planning</h3>
+        <p>
+            CIDR (Classless Inter-Domain Routing) notation is how you define IP address ranges in your VPC. Proper 
+            CIDR planning is crucial because it's difficult to change later, and running out of IP addresses can 
+            limit your ability to scale.
+        </p>
+        
+        <h4>Understanding CIDR Notation</h4>
+        <div class="code-block">
+Example: 10.0.0.0/16
+
+Components:
+├── IP Address: 10.0.0.0 (base network address)
+└── Prefix: /16 (subnet mask, determines network size)
+
+The prefix number indicates how many bits are fixed:
+• Smaller prefix = MORE IP addresses (larger network)
+• Larger prefix = FEWER IP addresses (smaller network)
+
+Common VPC CIDR Sizes:
+/16 = 65,536 IP addresses   (Recommended for large deployments)
+/20 = 4,096 IP addresses    (Medium-sized environments)
+/24 = 256 IP addresses      (Small environments)
+/28 = 16 IP addresses       (Minimum allowed in AWS)
+        </div>
+        
+        <h4>AWS VPC CIDR Requirements</h4>
+        <ul>
+            <li><strong>Size Range:</strong> Between /16 (largest) and /28 (smallest)</li>
+            <li><strong>Private Ranges:</strong> Should use RFC 1918 addresses:
+                <ul>
+                    <li>10.0.0.0/8 (10.0.0.0 - 10.255.255.255)</li>
+                    <li>172.16.0.0/12 (172.16.0.0 - 172.31.255.255)</li>
+                    <li>192.168.0.0/16 (192.168.0.0 - 192.168.255.255)</li>
+                </ul>
+            </li>
+            <li><strong>No Overlap:</strong> Cannot overlap with other VPCs if using VPC Peering or Transit Gateway</li>
+            <li><strong>Secondary CIDRs:</strong> Can add additional CIDR blocks later (up to 5 total)</li>
+        </ul>
+        
+        <div class="best-practice">
+            <strong>✅ Best Practice: CIDR Planning Strategy</strong>
+            <p>Start with a /16 CIDR block to maximize flexibility. Use a systematic approach:</p>
+            <ul style="margin-left: 20px;">
+                <li><strong>VPC 1 (Production):</strong> 10.0.0.0/16</li>
+                <li><strong>VPC 2 (Staging):</strong> 10.1.0.0/16</li>
+                <li><strong>VPC 3 (Development):</strong> 10.2.0.0/16</li>
+                <li><strong>VPC 4 (Management):</strong> 10.3.0.0/16</li>
+            </ul>
+            <p>This gives you room for 256 VPCs with 65,536 IPs each, and they'll never overlap.</p>
+        </div>
+        
+        <h4>Practical Subnet CIDR Planning</h4>
+        <div class="code-block">
+VPC CIDR: 10.0.0.0/16 (65,536 IP addresses)
+
+Subnet Allocation Strategy:
+┌─────────────────────────────────────────────────┐
+│ Availability Zone A (us-east-1a)                │
+├─────────────────────────────────────────────────┤
+│ 10.0.0.0/24  - Public Subnet (Web Tier)        │
+│ 10.0.1.0/24  - Private Subnet (App Tier)       │
+│ 10.0.2.0/24  - Private Subnet (Database Tier)  │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│ Availability Zone B (us-east-1b)                │
+├─────────────────────────────────────────────────┤
+│ 10.0.10.0/24 - Public Subnet (Web Tier)        │
+│ 10.0.11.0/24 - Private Subnet (App Tier)       │
+│ 10.0.12.0/24 - Private Subnet (Database Tier)  │
+└─────────────────────────────────────────────────┘
+
+Reserved for Future:
+├── 10.0.20.0/24 through 10.0.255.0/24
+└── Room for 246 more /24 subnets!
+        </div>
+        
+        <h3>Tenancy: Default vs Dedicated</h3>
+        <p>
+            Instance tenancy determines whether your EC2 instances run on shared or dedicated physical hardware. 
+            This choice affects both security posture and costs.
+        </p>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Default Tenancy</th>
+                    <th>Dedicated Tenancy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Hardware</strong></td>
+                    <td>Shared with other AWS customers</td>
+                    <td>Physical servers dedicated to your account</td>
+                </tr>
+                <tr>
+                    <td><strong>Isolation</strong></td>
+                    <td>Logical isolation via hypervisor</td>
+                    <td>Physical isolation</td>
+                </tr>
+                <tr>
+                    <td><strong>Security</strong></td>
+                    <td>Highly secure (AWS-managed)</td>
+                    <td>Adds physical separation layer</td>
+                </tr>
+                <tr>
+                    <td><strong>Cost</strong></td>
+                    <td>Standard EC2 pricing</td>
+                    <td>2x higher instance costs (approximately)</td>
+                </tr>
+                <tr>
+                    <td><strong>Performance</strong></td>
+                    <td>Excellent, managed by AWS</td>
+                    <td>Same as default tenancy</td>
+                </tr>
+                <tr>
+                    <td><strong>Use Cases</strong></td>
+                    <td>99% of workloads</td>
+                    <td>Compliance requirements, BYOL licensing</td>
+                </tr>
+                <tr>
+                    <td><strong>Flexibility</strong></td>
+                    <td>Can launch any instance type</td>
+                    <td>Limited instance type availability</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="warning-box">
+            <h4>⚠️ Important Considerations for Tenancy</h4>
+            <p>
+                Dedicated tenancy is expensive and rarely necessary. AWS's default tenancy provides robust isolation 
+                through hypervisor-level separation that meets most security and compliance requirements.
+            </p>
+            <p><strong>Only choose dedicated tenancy if you:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Have regulatory requirements mandating physical isolation</li>
+                <li>Have software licenses that require dedicated physical servers</li>
+                <li>Have organizational policies requiring physical separation</li>
+            </ul>
+            <p>
+                <strong>Note:</strong> Once you set a VPC to dedicated tenancy, you cannot change it back to default. 
+                Plan carefully before making this decision.
+            </p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- SECTION 2: SUBNETS & IP ADDRESSING -->
+    <div class="section">
+        <div class="section-header">
+            <h2>Section 2: Subnets & IP Addressing</h2>
+            <div class="duration">Network Segmentation and IP Management</div>
+        </div>
+        
+        <h3>Understanding Subnets</h3>
+        <p>
+            A subnet is a logical subdivision of your VPC's IP address space. Subnets allow you to segment your 
+            network into smaller, more manageable pieces, providing organization, security, and fault tolerance. 
+            They're the building blocks of multi-tier application architectures in AWS.
+        </p>
+        
+        <div class="key-point">
+            <strong>🔑 Critical Subnet Concept:</strong>
+            Each subnet exists in exactly ONE Availability Zone and cannot span multiple AZs. This is a fundamental 
+            constraint that shapes how you design highly available architectures in AWS.
+        </div>
+        
+        <p><strong>Key Subnet Characteristics:</strong></p>
+        <ul>
+            <li>Must be within the VPC's CIDR block range</li>
+            <li>Cannot overlap with other subnets in the same VPC</li>
+            <li>Bound to a single Availability Zone</li>
+            <li>Associated with exactly one route table</li>
+            <li>Can have a Network ACL for additional security</li>
+        </ul>
+        
+        <h3>Public vs Private Subnets</h3>
+        
+        <h4>Public Subnets</h4>
+        <p>
+            A public subnet has a route to an Internet Gateway (IGW) in its associated route table. Resources 
+            in public subnets can communicate directly with the internet in both directions (inbound and outbound).
+        </p>
+        
+        <p><strong>Characteristics of Public Subnets:</strong></p>
+        <ul>
+            <li>Route table contains 0.0.0.0/0 → Internet Gateway</li>
+            <li>Instances typically have public IP addresses or Elastic IPs</li>
+            <li>Direct bidirectional communication with the internet</li>
+            <li>Suitable for internet-facing resources</li>
+        </ul>
+        
+        <p><strong>Common Resources in Public Subnets:</strong></p>
+        <ul>
+            <li><strong>Web Servers:</strong> Nginx, Apache, IIS</li>
+            <li><strong>Load Balancers:</strong> Application Load Balancers, Network Load Balancers</li>
+            <li><strong>NAT Gateways:</strong> To provide internet access for private subnets</li>
+            <li><strong>Bastion Hosts:</strong> Secure access points for SSH/RDP to private resources</li>
+            <li><strong>Public APIs:</strong> API Gateway endpoints with custom domains</li>
+        </ul>
+        
+        <h4>Private Subnets</h4>
+        <p>
+            A private subnet does NOT have a direct route to an Internet Gateway. Resources in private subnets 
+            cannot be accessed directly from the internet, providing an essential layer of security for sensitive 
+            workloads.
+        </p>
+        
+        <p><strong>Characteristics of Private Subnets:</strong></p>
+        <ul>
+            <li>No direct route to Internet Gateway</li>
+            <li>Can route to NAT Gateway for outbound internet access</li>
+            <li>Instances only have private IP addresses</li>
+            <li>Not directly reachable from the internet</li>
+        </ul>
+        
+        <p><strong>Common Resources in Private Subnets:</strong></p>
+        <ul>
+            <li><strong>Application Servers:</strong> Business logic, microservices</li>
+            <li><strong>Databases:</strong> RDS, Aurora, Redshift, DynamoDB VPC endpoints</li>
+            <li><strong>Cache Layers:</strong> ElastiCache (Redis, Memcached)</li>
+            <li><strong>Internal Services:</strong> Message queues, background workers</li>
+            <li><strong>Sensitive Data Processing:</strong> ETL jobs, data analysis</li>
+        </ul>
+        
+        <div class="info-box">
+            <h4>💡 What Actually Makes a Subnet Public or Private?</h4>
+            <p>
+                This is a common point of confusion: There is NO checkbox or setting that makes a subnet "public" 
+                or "private" in AWS. These are conceptual distinctions based on routing configuration.
+            </p>
+            <p><strong>A subnet is "public" when:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li>Its route table has a route: 0.0.0.0/0 → igw-xxxxx</li>
+                <li>Resources have
